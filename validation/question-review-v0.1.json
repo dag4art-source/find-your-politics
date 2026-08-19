@@ -68,5 +68,5 @@
     {"id":"Q059","status":"redesign","reason":"Explicitly separates qualification and generosity but one-score format/live code cannot represent both cleanly."},
     {"id":"Q060","status":"redesign","reason":"Meta/consistency item bundles multiple constructs; live scoring ignores low_weight/consistency_check tags."}
   ],
-  "counts": {"pass":39,"review":13,"redesign":8}
+  "counts": {"pass":35,"review":17,"redesign":8}
 }
