@@ -41,24 +41,11 @@
     if(compare)compare.classList.remove('hidden')
   }
 
-  function ensureHomeAbout(){
-    const home=document.getElementById('screen-home');
-    const actions=home?.querySelector('.home-actions');
-    if(!actions)return;
-    let a=document.getElementById('homeAboutBtn');
-    if(!a){
-      a=document.createElement('a');
-      a.id='homeAboutBtn';
-      a.className='ghost home-about-btn';
-      a.href='about.html';
-      actions.after(a)
-    }
-    a.textContent=T('Om projektet →','About the project →')
-  }
-
-  function updateFooterLanguage(){
-    const a=document.getElementById('methodologyLink');
-    if(a)a.textContent=T('Metod & källor','Methodology & sources');
+  function updateLanguageExtras(){
+    const method=document.getElementById('methodologyLink');
+    if(method)method.textContent=T('Metod & källor','Methodology & sources');
+    const about=document.getElementById('homeAboutLink');
+    if(about)about.textContent=T('Om projektet →','About the project →');
     const title=document.querySelector('.creator-title');
     const role=document.querySelector('.creator-role');
     if(title)title.textContent=T('Ett oberoende experiment av Danijel Brakus','An independent experiment by Danijel Brakus');
@@ -111,7 +98,7 @@
 
   document.addEventListener('click',e=>{const ch=e.target.closest('#challengeResultBtn');if(ch&&!ch.onclick){e.preventDefault();challengeFallback()}},true);
 
-  function polish(){ensureHomeAbout();updateFooterLanguage();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V1.3.6'}
+  function polish(){updateLanguageExtras();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V1.3.6'}
 
   let scheduled=false;const obs=new MutationObserver(()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;polish()})});
   obs.observe(document.body,{childList:true,subtree:true});window.addEventListener('load',polish);polish();
