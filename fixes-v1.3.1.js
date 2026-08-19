@@ -1,6 +1,7 @@
 (function(){
   const sv=()=>document.documentElement.lang==='sv';
   const T=(a,b)=>sv()?a:b;
+  const norm=s=>(s||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,' ').trim();
 
   function removeEmDashes(root=document.body){
     const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];
@@ -59,16 +60,30 @@
 
   function comparisonAccents(){
     const rows=[...document.querySelectorAll('#compareRows .compare-row')];
-    if(!rows.length||typeof vector!=='function'||typeof coords!=='function')return;
-    const top=(typeof ranking==='function'?ranking():[]).filter(r=>state.acceptability[r.p]!=='veto').slice(0,3);
+    if(!rows.length||typeof vector!=='function'||typeof coords!=='function'||!state.model)return;
+    const ranked=(typeof ranking==='function'?ranking():[]);
+    const practical=ranked.filter(r=>state.acceptability[r.p]!=='veto');
+    const top=(practical.length>=3?practical:ranked).slice(0,3);
     const u=vector(),pc=coords();
     rows.forEach(row=>{
-      const cells=[...row.querySelectorAll('.compare-cell')];cells.forEach(c=>{c.classList.remove('match-close');delete c.dataset.matchLabel});
-      const topic=row.querySelector('.compare-topic strong')?.textContent||'';
-      const modelDim=state.model?.dimensions?.find(x=>typeof dimName==='function'&&dimName(x.dimension)===topic);
-      const d=modelDim?.dimension;if(!d||u[d]==null||cells.length<4)return;
-      const distances=top.map(r=>Math.abs(u[d]-pc[r.p][d]));const min=Math.min(...distances);
-      distances.forEach((dist,idx)=>{if(dist===min&&cells[idx+1]){const party=partyNames[top[idx].p];cells[idx+1].classList.add('match-close');cells[idx+1].dataset.matchLabel=T(`Närmast dig: ${party}`,`Closest to you: ${party}`)}})
+      const cells=[...row.querySelectorAll('.compare-cell')];
+      cells.forEach(c=>{c.classList.remove('match-close');delete c.dataset.matchLabel});
+      const topic=norm(row.querySelector('.compare-topic strong')?.textContent||'');
+      let d=null;
+      for(const x of state.model.dimensions){
+        const labels=[x.dimension, typeof dimName==='function'?dimName(x.dimension):''];
+        if(labels.some(label=>norm(label)===topic)){d=x.dimension;break}
+      }
+      if(!d||u[d]==null||cells.length<4)return;
+      const distances=top.map(r=>Math.abs(u[d]-pc[r.p][d]));
+      const min=Math.min(...distances);
+      distances.forEach((dist,idx)=>{
+        if(Math.abs(dist-min)<0.0001&&cells[idx+1]){
+          const party=partyNames[top[idx].p];
+          cells[idx+1].classList.add('match-close');
+          cells[idx+1].dataset.matchLabel=T(`Närmast dig: ${party}`,`Closest to you: ${party}`)
+        }
+      })
     })
   }
 
@@ -82,7 +97,7 @@
 
   document.addEventListener('click',e=>{const ch=e.target.closest('#challengeResultBtn');if(ch&&!ch.onclick){e.preventDefault();challengeFallback()}},true);
 
-  function polish(){fixMethodLabel();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V1.3.3'}
+  function polish(){fixMethodLabel();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V1.3.4'}
 
   let scheduled=false;const obs=new MutationObserver(()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;polish()})});
   obs.observe(document.body,{childList:true,subtree:true});window.addEventListener('load',polish);polish();
