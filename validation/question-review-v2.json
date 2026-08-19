@@ -1,0 +1,23 @@
+{
+  "version":"2.0-post-rebuild-review",
+  "date":"2026-08-20",
+  "summary":{
+    "standard_policy":40,
+    "lower_weight_or_stress_policy":13,
+    "dealbreaker_probe":5,
+    "cross_dimension_policy":2,
+    "redesign_blockers":0
+  },
+  "notes":{
+    "standard_policy":"Core question can contribute normally to its policy dimension.",
+    "lower_weight_or_stress_policy":"Question is useful but contains a hypothetical, broader construct or additional trade-off, so V2 deliberately gives it less evidentiary weight.",
+    "dealbreaker_probe":"Measures sensitivity to a large conflict, never ideological direction.",
+    "cross_dimension_policy":"One answer creates separate scores on two policy dimensions.",
+    "redesign_blockers":"Questions that should not be active in scoring until structurally redesigned. V2 has none after the rebuild."
+  },
+  "lower_weight_or_stress_policy":["Q004","Q005","Q008","Q023","Q025","Q031","Q032","Q034","Q039","Q046","Q048","Q050","Q060"],
+  "dealbreaker_probe":["Q051","Q052","Q053","Q054","Q055"],
+  "cross_dimension_policy":["Q058","Q059"],
+  "material_rewrites":["Q002","Q004","Q005","Q015","Q017","Q023","Q025","Q031","Q032","Q034","Q040","Q043","Q046","Q048","Q050","Q060"],
+  "conclusion":"The V2 bank has no known structural scoring blocker. Lower-weight questions remain intentionally marked because their wording or construct contains more modelling assumptions than direct policy questions. This is an internal methodological review, not psychometric or academic validation."
+}
