@@ -1,16 +1,25 @@
-# Find Your Politics — Sweden 2026 — V1.1
+# Find Your Politics — Sweden 2026 — V1.3
 
-Refinement pass:
-- Cleaner Swedish UX wording
-- Friendlier issue labels in results
-- Clear explanation of Policy Alignment vs Voting Fit
-- Improved mobile spacing, tap targets and sticky header
-- More readable results hierarchy
-- Slightly clearer beginner-level helper text
-- No scoring-model changes in this build
+V1.3 adds the trust + depth layer on top of the adaptive bilingual test.
 
-Run:
-python3 -m http.server 8011
+## Included
+- Swedish-first bilingual experience
+- Adaptive question selection and knowledge levels
+- Top 3 comparison + targeted difference testing
+- Personal political profile summary
+- Political fingerprint visualization
+- Why am I being asked this?
+- Smarter result-change insights
+- Result stability
+- Challenge my result
+- Simplified party veto selection
+- Separate “I’ve never thought about this” learning path
+- Personalized what-to-read-next prompts
+- Most influential answers
+- Shareable political profile
+- Official party source links
+- Bilingual methodology & transparency page
+- Browser-only privacy model; no answer database
 
-Open:
-http://localhost:8011
+## Important publication note
+The current party-coordinate model is still an experimental prototype. Before public launch, all party coordinates should be revalidated dimension-by-dimension against current 2026 official party material.
