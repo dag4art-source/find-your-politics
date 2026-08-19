@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Find Your Politics — Sweden 2026</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">Find Your Politics</div>
+      <div class="top-actions">
+        <div class="language-switch" aria-label="Language">
+          <button id="langSv" class="lang active">SV</button>
+          <button id="langEn" class="lang">EN</button>
+        </div>
+        <div class="meta">Sweden 2026 · V1.1</div>
+      </div>
+    </header>
+
+    <section id="screen-home" class="screen active">
+      <div class="hero">
+        <p class="eyebrow" data-i18n="home_eyebrow"></p>
+        <h1 data-i18n="home_title"></h1>
+        <p class="lede" data-i18n="home_subtitle"></p>
+        <div class="why-copy" data-i18n-html="home_body"></div>
+
+        <div class="trust-row">
+          <span data-i18n="trust_1"></span>
+          <span data-i18n="trust_2"></span>
+          <span data-i18n="trust_3"></span>
+          <span data-i18n="trust_4"></span>
+        </div>
+
+        <div class="home-actions">
+          <button id="startBtn" class="primary" data-i18n="cta_find"></button>
+          <button id="readMoreBtn" class="text-link" data-i18n="read_more"></button>
+        </div>
+
+        <div id="readMorePanel" class="read-more-panel hidden">
+          <div class="read-more-section">
+            <div class="small-label" data-i18n="what"></div>
+            <p data-i18n="what_body"></p>
+          </div>
+          <div class="read-more-section">
+            <div class="small-label" data-i18n="why"></div>
+            <p data-i18n="why_body"></p>
+          </div>
+          <div class="read-more-section">
+            <div class="small-label" data-i18n="how"></div>
+            <p data-i18n="how_body"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-knowledge" class="screen">
+      <p class="eyebrow" data-i18n="one_thing"></p>
+      <h2 data-i18n="knowledge_title"></h2>
+      <p class="muted" data-i18n="knowledge_body"></p>
+      <div class="knowledge-grid">
+        <button class="knowledge-card" data-level="beginner">
+          <strong data-i18n="beginner_title"></strong>
+          <span data-i18n="beginner_body"></span>
+        </button>
+        <button class="knowledge-card" data-level="intermediate">
+          <strong data-i18n="intermediate_title"></strong>
+          <span data-i18n="intermediate_body"></span>
+        </button>
+        <button class="knowledge-card" data-level="advanced">
+          <strong data-i18n="advanced_title"></strong>
+          <span data-i18n="advanced_body"></span>
+        </button>
+      </div>
+      <p class="tiny-note" data-i18n="knowledge_note"></p>
+    </section>
+
+    <section id="screen-priorities" class="screen">
+      <p class="eyebrow" data-i18n="priority_eyebrow"></p>
+      <h2 data-i18n="priority_title"></h2>
+      <p class="muted" data-i18n="priority_body"></p>
+      <div id="priorityGrid" class="priority-grid"></div>
+      <div class="priority-actions">
+        <button id="priorityNext" class="primary" data-i18n="start_questions"></button>
+        <button id="equalBtn" class="text-link" data-i18n="equal_issues"></button>
+      </div>
+    </section>
+
+    <section id="screen-quiz" class="screen">
+      <div class="sticky-status">
+        <div class="status-row">
+          <span id="progressText"></span>
+          <span id="confidenceLabel"></span>
+        </div>
+        <div class="progress"><div id="progressBar"></div></div>
+      </div>
+
+      <div id="insightBanner" class="insight-banner hidden"></div>
+
+      <div class="question-card">
+        <div class="question-meta" id="questionMeta"></div>
+        <h2 id="questionText"></h2>
+        <div id="answers" class="answers"></div>
+
+        <div class="question-actions">
+          <button id="backBtn" class="ghost hidden" data-i18n="back"></button>
+          <button id="explainBtn" class="ghost" data-i18n="dont_know"></button>
+        </div>
+
+        <div id="explainer" class="explainer hidden">
+          <div class="small-label" data-i18n="plain_english"></div>
+          <p id="explainerText"></p>
+          <div class="explainer-tradeoff">
+            <strong data-i18n="real_tradeoff"></strong>
+            <p id="explainerTradeoff"></p>
+          </div>
+          <button id="skipQuestionBtn" class="ghost" data-i18n="still_unsure"></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-checkpoint" class="screen checkpoint-screen">
+      <p class="eyebrow" data-i18n="checkpoint"></p>
+      <div class="confidence-hero"><span id="checkpointConfidence"></span></div>
+      <h1 id="checkpointTitle"></h1>
+      <div id="checkpointBody" class="checkpoint-body"></div>
+      <div class="profile-card">
+        <div class="small-label" data-i18n="profile_so_far"></div>
+        <div id="profileTraits" class="traits"></div>
+      </div>
+      <div class="checkpoint-actions">
+        <button id="continueBtn" class="primary"></button>
+        <button id="earlyResultBtn" class="ghost" data-i18n="see_current"></button>
+      </div>
+    </section>
+
+    <section id="screen-acceptability" class="screen">
+      <p class="eyebrow" data-i18n="not_only_policy"></p>
+      <h2 data-i18n="accept_title"></h2>
+      <p class="muted" data-i18n="accept_body"></p>
+      <div id="partyAcceptability" class="party-list"></div>
+      <button id="acceptabilityNext" class="primary" data-i18n="show_results"></button>
+    </section>
+
+    <section id="screen-results" class="screen">
+      <p class="eyebrow" data-i18n="your_result"></p>
+      <h1 data-i18n="results_title"></h1>
+      <p class="muted" data-i18n="results_intro"></p><div class="score-legend"><div><strong>Policy Alignment</strong><span data-i18n="policy_alignment_help"></span></div><div><strong>Voting Fit</strong><span data-i18n="voting_fit_help"></span></div></div>
+      <div id="resultsList" class="results"></div>
+      <div id="nextRead" class="method-box"></div>
+      <div class="method-box">
+        <h3 data-i18n="important"></h3>
+        <p data-i18n="method_note"></p>
+      </div>
+      <div class="result-actions">
+        <button id="continueFromResultsBtn" class="primary hidden" data-i18n="continue_testing"></button>
+        <button id="restartBtn" class="ghost" data-i18n="start_over"></button>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a href="https://www.linkedin.com/in/danijel-brakus-2aa9b43b" target="_blank" rel="noopener noreferrer">made by: Danijel Brakus</a>
+    </footer>
+  </main>
+<script src="app.js"></script>
+</body>
+</html>
