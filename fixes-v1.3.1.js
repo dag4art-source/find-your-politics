@@ -41,14 +41,13 @@
     if(compare)compare.classList.remove('hidden')
   }
 
-  function fixMethodLabel(){
+  function updateFooterLanguage(){
     const a=document.getElementById('methodologyLink');
     if(a)a.textContent=T('Metod & källor','Methodology & sources');
-    const footer=document.querySelector('.site-footer');
-    if(footer){
-      const credit=[...footer.querySelectorAll('a')].find(x=>/made by/i.test(x.textContent));
-      if(credit)credit.textContent='Made by Danijel Brakus ↗';
-    }
+    const title=document.querySelector('.creator-title');
+    const role=document.querySelector('.creator-role');
+    if(title)title.textContent=T('Ett oberoende experiment av Danijel Brakus','An independent experiment by Danijel Brakus');
+    if(role)role.textContent='Brand strategist, copywriter & AI enthusiast'
   }
 
   function removeShareFeature(){document.querySelectorAll('.share-card,.share-status,#shareProfileBtn').forEach(x=>x.remove())}
@@ -97,7 +96,7 @@
 
   document.addEventListener('click',e=>{const ch=e.target.closest('#challengeResultBtn');if(ch&&!ch.onclick){e.preventDefault();challengeFallback()}},true);
 
-  function polish(){fixMethodLabel();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V1.3.4'}
+  function polish(){updateFooterLanguage();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V1.3.5'}
 
   let scheduled=false;const obs=new MutationObserver(()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;polish()})});
   obs.observe(document.body,{childList:true,subtree:true});window.addEventListener('load',polish);polish();
