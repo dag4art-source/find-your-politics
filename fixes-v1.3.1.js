@@ -98,7 +98,7 @@
 
   document.addEventListener('click',e=>{const ch=e.target.closest('#challengeResultBtn');if(ch&&!ch.onclick){e.preventDefault();challengeFallback()}},true);
 
-  function polish(){updateLanguageExtras();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V1.3.6'}
+  function polish(){updateLanguageExtras();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V2.0 audit candidate'}
 
   let scheduled=false;const obs=new MutationObserver(()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;polish()})});
   obs.observe(document.body,{childList:true,subtree:true});window.addEventListener('load',polish);polish();
