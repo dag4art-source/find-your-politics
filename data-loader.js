@@ -7,3 +7,5 @@ window.fetch=async function(input,init){
   }
   return __nativeFetch(input,init);
 };
+const v13css=document.createElement("link");v13css.rel="stylesheet";v13css.href="enhancement.css";document.head.appendChild(v13css);
+window.addEventListener("load",()=>{const s=document.createElement("script");s.src="enhancement.js";document.body.appendChild(s);});
