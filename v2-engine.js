@@ -3,6 +3,7 @@
   const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
   const patchBank=()=>{if(window.FYP_V2_PATCH_BANK)window.FYP_V2_PATCH_BANK(state)};
   const usefulCount=()=>Object.values(state.answers).filter(a=>a&&(a.kind==='dealbreaker'||a.kind==='diagnostic'||a.score!=null||a.scores)).length;
+  const policyCount=()=>Object.values(state.answers).filter(a=>a?.kind==='policy'&&(a.score!=null||a.scores)).length;
   const evidence=a=>{if(!a||['dealbreaker','diagnostic','skip'].includes(a.kind))return[];if(a.scores)return Object.entries(a.scores).filter(([,v])=>Number.isFinite(v));return Number.isFinite(a.score)&&a.dimension?[[a.dimension,a.score]]:[]};
 
   vector=function(){
@@ -25,8 +26,12 @@
     }).sort((a,b)=>b.fit-a.fit||b.policy-a.policy);
   };
 
+  confidence=function(){
+    const n=policyCount(),v=vector(),r=ranking(),gap=(r[0]?.fit||0)-(r[1]?.fit||0),breadth=Math.min(1,Object.keys(v).length/12),depth=Math.min(1,n/18),stability=Math.min(1,Math.max(0,gap)/12);return Math.round(100*(.5*breadth+.4*depth+.1*stability));
+  };
+
   function record(q,a){
-    patchBank();state.history.push(q.id);const weight=Number.isFinite(q.v2_weight)?q.v2_weight:(q.type==='reality_check'?.8:1);
+    patchBank();state.history.push(q.id);const weight=Number.isFinite(q.v2_weight)?q.v2_weight:(q.type==='reality_check' ? .8 : 1);
     if(q.v2_kind==='dealbreaker'){state.dealbreakers=state.dealbreakers||{};state.dealbreakers[q.dealbreaker_dimension]=a.dealbreaker_sensitivity;state.answers[q.id]={score:null,dimension:q.primary_dimension,kind:'dealbreaker',dealbreakerDimension:q.dealbreaker_dimension,sensitivity:a.dealbreaker_sensitivity,weight:0}}
     else if(q.v2_kind==='diagnostic')state.answers[q.id]={score:null,dimension:q.primary_dimension,kind:'diagnostic',diagnosticScore:a.score,weight:0};
     else if(a.scores)state.answers[q.id]={score:a.score,dimension:q.primary_dimension,scores:{...a.scores},kind:'policy',weight};
@@ -43,8 +48,8 @@
 
   const baseChooseNext=chooseNext;
   chooseNext=function(){
-    patchBank();const policyCount=Object.values(state.answers).filter(a=>a?.kind==='policy'&&(a.score!=null||a.scores)).length;
-    if(policyCount>=12){const answered=new Set(Object.keys(state.answers)),v=vector(),r=ranking().filter(x=>state.acceptability[x.p]!=='veto').slice(0,3),c=coords(),candidates=state.bank.questions.filter(q=>q.v2_kind==='dealbreaker'&&!answered.has(q.id)&&!state.asked.includes(q.id));let best=null,bestScore=0;candidates.forEach(q=>{const d=q.dealbreaker_dimension;if(v[d]==null)return;const maxDist=Math.max(...r.map(x=>Math.abs(v[d]-c[x.p][d]))),priority=(state.priorities||[]).some(p=>(priorityMap[p]||[]).includes(d)),score=maxDist+(priority?20:0);if(maxDist>=85&&score>bestScore){best=q;bestScore=score}});const dbAnswered=Object.values(state.answers).filter(a=>a?.kind==='dealbreaker').length;if(best&&dbAnswered<2)return best}
+    patchBank();const n=policyCount();
+    if(n>=12){const answered=new Set(Object.keys(state.answers)),v=vector(),r=ranking().filter(x=>state.acceptability[x.p]!=='veto').slice(0,3),c=coords(),candidates=state.bank.questions.filter(q=>q.v2_kind==='dealbreaker'&&!answered.has(q.id)&&!state.asked.includes(q.id));let best=null,bestScore=0;candidates.forEach(q=>{const d=q.dealbreaker_dimension;if(v[d]==null)return;const maxDist=Math.max(...r.map(x=>Math.abs(v[d]-c[x.p][d]))),priority=(state.priorities||[]).some(p=>(priorityMap[p]||[]).includes(d)),score=maxDist+(priority?20:0);if(maxDist>=85&&score>bestScore){best=q;bestScore=score}});const dbAnswered=Object.values(state.answers).filter(a=>a?.kind==='dealbreaker').length;if(best&&dbAnswered<2)return best}
     return baseChooseNext();
   };
 
