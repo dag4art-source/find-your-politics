@@ -1,0 +1,9 @@
+/* V2 scoring UI */
+.v2-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 18px}
+.v2-metric{border:1px solid var(--line);border-radius:16px;padding:13px 14px;background:#faf9f6;display:flex;flex-direction:column;gap:4px}
+.v2-metric>span{font-size:11px;line-height:1.2;text-transform:uppercase;letter-spacing:.06em;font-weight:850;color:var(--muted)}
+.v2-metric>strong{font-size:26px;line-height:1;color:var(--ink)}
+.v2-metric>strong small{font-size:12px;font-weight:750;color:var(--muted)}
+.v2-metric>em{font-size:10px;line-height:1.3;color:var(--muted);font-style:normal}
+.best-match .v2-metric:last-child{background:var(--accent-soft);border-color:#cfc7ff}
+@media(max-width:560px){.v2-metrics{grid-template-columns:1fr}.v2-metric{padding:12px 13px}}
