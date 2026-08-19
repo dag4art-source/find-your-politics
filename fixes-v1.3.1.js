@@ -17,7 +17,14 @@
   function highlightImportant(){
     document.querySelectorAll('#screen-results .method-box').forEach(box=>{
       const h=box.querySelector('h3');
-      if(h&&/^(Viktigt|Important)$/i.test(h.textContent.trim()))box.classList.add('important-callout')
+      if(h&&/^(Viktigt|Important)$/i.test(h.textContent.trim())){
+        box.classList.add('important-callout');
+        const p=box.querySelector('p');
+        if(p)p.textContent=T(
+          'Vi strävar efter att vara så objektiva som möjligt. Modellen bygger på offentligt tillgängliga officiella partipositioner och på hur partierna själva beskriver sin politik. Poängen är ett mått på politisk närhet - inte en objektiv sanning och inte ett råd om hur du bör rösta.',
+          'We aim to be as objective as possible. The model is based on publicly available official party positions and on how the parties themselves describe their policies. The score is an alignment measure - not an objective truth and not advice on how you should vote.'
+        )
+      }
     })
   }
 
@@ -43,15 +50,11 @@
     }
   }
 
-  function removeShareFeature(){
-    document.querySelectorAll('.share-card,.share-status,#shareProfileBtn').forEach(x=>x.remove())
-  }
+  function removeShareFeature(){document.querySelectorAll('.share-card,.share-status,#shareProfileBtn').forEach(x=>x.remove())}
 
   function dedupeVetoHelper(){
-    const helpers=[...document.querySelectorAll('#screen-acceptability .veto-helper')];
-    helpers.slice(1).forEach(x=>x.remove());
-    const buttons=[...document.querySelectorAll('#screen-acceptability #vetoNone')];
-    buttons.slice(1).forEach(x=>x.remove())
+    const helpers=[...document.querySelectorAll('#screen-acceptability .veto-helper')];helpers.slice(1).forEach(x=>x.remove());
+    const buttons=[...document.querySelectorAll('#screen-acceptability #vetoNone')];buttons.slice(1).forEach(x=>x.remove())
   }
 
   function comparisonAccents(){
@@ -60,21 +63,12 @@
     const top=(typeof ranking==='function'?ranking():[]).filter(r=>state.acceptability[r.p]!=='veto').slice(0,3);
     const u=vector(),pc=coords();
     rows.forEach(row=>{
-      const cells=[...row.querySelectorAll('.compare-cell')];
-      cells.forEach(c=>{c.classList.remove('match-close');delete c.dataset.matchLabel});
+      const cells=[...row.querySelectorAll('.compare-cell')];cells.forEach(c=>{c.classList.remove('match-close');delete c.dataset.matchLabel});
       const topic=row.querySelector('.compare-topic strong')?.textContent||'';
       const modelDim=state.model?.dimensions?.find(x=>typeof dimName==='function'&&dimName(x.dimension)===topic);
-      const d=modelDim?.dimension;
-      if(!d||u[d]==null||cells.length<4)return;
-      const distances=top.map(r=>Math.abs(u[d]-pc[r.p][d]));
-      const min=Math.min(...distances);
-      distances.forEach((dist,idx)=>{
-        if(dist===min&&cells[idx+1]){
-          const party=partyNames[top[idx].p];
-          cells[idx+1].classList.add('match-close');
-          cells[idx+1].dataset.matchLabel=T(`Närmast dig: ${party}`,`Closest to you: ${party}`)
-        }
-      })
+      const d=modelDim?.dimension;if(!d||u[d]==null||cells.length<4)return;
+      const distances=top.map(r=>Math.abs(u[d]-pc[r.p][d]));const min=Math.min(...distances);
+      distances.forEach((dist,idx)=>{if(dist===min&&cells[idx+1]){const party=partyNames[top[idx].p];cells[idx+1].classList.add('match-close');cells[idx+1].dataset.matchLabel=T(`Närmast dig: ${party}`,`Closest to you: ${party}`)}})
     })
   }
 
@@ -82,33 +76,14 @@
     if(typeof vector!=='function'||typeof coords!=='function'||!state.bank)return;
     const ranked=ranking().filter(r=>state.acceptability[r.p]!=='veto').slice(0,3),pc=coords(),v=vector();
     const unused=state.bank.questions.filter(q=>!state.asked.includes(q.id));
-    const qs=unused.map(q=>{
-      const vals=ranked.map(r=>pc[r.p][q.primary_dimension]).filter(Number.isFinite);
-      const spread=vals.length>1?Math.max(...vals)-Math.min(...vals):0;
-      return{q,score:spread+(v[q.primary_dimension]==null?25:0)+(q.type==='discriminator'?12:0)}
-    }).sort((a,b)=>b.score-a.score).slice(0,5).map(x=>x.q);
-    if(!qs.length)return;
-    state.comparisonQueue=qs.map(q=>q.id);state.viewingEarlyResults=true;
-    const first=qs[0];state.comparisonQueue.shift();
-    if(!state.asked.includes(first.id))state.asked.push(first.id);
-    state.current=first;show('screen-quiz');renderQuestion(first)
+    const qs=unused.map(q=>{const vals=ranked.map(r=>pc[r.p][q.primary_dimension]).filter(Number.isFinite);const spread=vals.length>1?Math.max(...vals)-Math.min(...vals):0;return{q,score:spread+(v[q.primary_dimension]==null?25:0)+(q.type==='discriminator'?12:0)}}).sort((a,b)=>b.score-a.score).slice(0,5).map(x=>x.q);
+    if(!qs.length)return;state.comparisonQueue=qs.map(q=>q.id);state.viewingEarlyResults=true;const first=qs[0];state.comparisonQueue.shift();if(!state.asked.includes(first.id))state.asked.push(first.id);state.current=first;show('screen-quiz');renderQuestion(first)
   }
 
-  document.addEventListener('click',e=>{
-    const ch=e.target.closest('#challengeResultBtn');
-    if(ch&&!ch.onclick){e.preventDefault();challengeFallback()}
-  },true);
+  document.addEventListener('click',e=>{const ch=e.target.closest('#challengeResultBtn');if(ch&&!ch.onclick){e.preventDefault();challengeFallback()}},true);
 
-  function polish(){
-    fixMethodLabel();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();
-    const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V1.3.2'
-  }
+  function polish(){fixMethodLabel();sourceCleanup();highlightImportant();moveResultActions();comparisonAccents();removeShareFeature();dedupeVetoHelper();removeEmDashes();const meta=document.querySelector('.meta');if(meta)meta.textContent='Sweden 2026 · V1.3.3'}
 
-  let scheduled=false;
-  const obs=new MutationObserver(()=>{
-    if(scheduled)return;scheduled=true;
-    requestAnimationFrame(()=>{scheduled=false;polish()})
-  });
-  obs.observe(document.body,{childList:true,subtree:true});
-  window.addEventListener('load',polish);polish();
+  let scheduled=false;const obs=new MutationObserver(()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;polish()})});
+  obs.observe(document.body,{childList:true,subtree:true});window.addEventListener('load',polish);polish();
 })();
