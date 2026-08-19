@@ -1,7 +1,8 @@
-/* V1.3.2 cleanup */
-.important-callout{background:#fff7d6!important;border:2px solid #d9b54a!important;box-shadow:0 8px 30px rgba(23,23,23,.06);position:relative}
-.important-callout h3{font-size:20px!important;margin-bottom:8px!important}
-.important-callout:before{content:'!';display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#171717;color:#fff;font-weight:900;margin-bottom:10px}
+/* V1.3.3 cleanup */
+.important-callout{background:#fff7d6!important;border:2px solid #d9b54a!important;box-shadow:0 8px 30px rgba(23,23,23,.06);position:relative;text-align:center!important;max-width:900px!important;margin:30px auto!important;padding:28px 34px!important}
+.important-callout h3{font-size:22px!important;margin:8px 0 10px!important}
+.important-callout p{max-width:760px!important;margin:0 auto!important;line-height:1.55!important}
+.important-callout:before{content:'!';display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#171717;color:#fff;font-weight:900;margin:0 auto 10px!important}
 
 .mid-result-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 30px;padding:18px;background:var(--accent-soft);border:1px solid #d7d1ff;border-radius:20px}
 .mid-result-actions button{width:100%;margin:0!important}
@@ -10,12 +11,10 @@
 .party-link{display:inline-flex!important;align-items:center;gap:6px;font-weight:800}
 .source-mini{display:none!important}
 
-/* Profile chips are labels, not white pseudo-buttons */
 .profile-summary .trait{background:rgba(91,75,255,.18)!important;border:1px solid rgba(135,124,255,.48)!important;color:#f2f0ff!important;box-shadow:none!important;padding:9px 13px!important}
 .profile-summary .traits{gap:9px!important}
 .share-card{display:none!important}
 
-/* Comparison: use the product violet instead of aggressive black for the user */
 .compare-screen{max-width:980px}
 .compare-party-strip{gap:12px!important;margin:22px 0 34px!important;position:sticky;top:64px;z-index:3;background:var(--bg);padding:10px 0}
 .compare-party{border-radius:20px!important;padding:16px!important;box-shadow:0 5px 18px rgba(23,23,23,.035)}
@@ -35,7 +34,6 @@
 .compare-summary strong{font-size:20px}
 .compare-actions{margin-top:22px!important}
 
-/* Credits should be visible and proud, but still belong to the footer */
 .site-footer{margin-top:46px!important;padding:24px 0 10px!important;border-top:1px solid var(--line)!important;display:flex!important;justify-content:space-between!important;align-items:center!important;gap:14px!important;flex-wrap:wrap!important}
 .site-footer a{font-size:13px!important;font-weight:800!important;color:var(--ink)!important;text-decoration:none!important;border:1px solid var(--line)!important;background:#fff!important;border-radius:999px!important;padding:10px 14px!important;opacity:1!important;transition:transform .15s ease,border-color .15s ease!important}
 .site-footer a:hover{transform:translateY(-1px);border-color:var(--accent)!important}
@@ -46,7 +44,7 @@
  .compare-party-strip{position:static;grid-template-columns:1fr 1fr!important}
  .compare-grid{grid-template-columns:1fr 1fr!important}
  .compare-cell{min-height:72px!important}
- .important-callout{padding:18px!important}
+ .important-callout{padding:22px 18px!important;margin:24px auto!important}
  .site-footer{align-items:stretch!important}
  .site-footer a{text-align:center!important}
 }
