@@ -1,0 +1,39 @@
+/* Reddit feedback UX improvements - 2026-08-22 */
+
+/* Keep keyboard focus accessible without making mouse/touch answers look pre-selected. */
+.answer:focus{outline:none}
+.answer:focus-visible{outline:2px solid #171717;outline-offset:2px}
+
+/* A visually separate non-scoring answer. */
+.no-fit-answer{
+  width:100%;
+  margin-top:16px;
+  padding:14px 16px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#ecebe7;
+  color:var(--ink);
+  text-align:center;
+  font-weight:750;
+  line-height:1.35;
+}
+.no-fit-answer small{display:block;margin-top:5px;color:var(--muted);font-size:12px;font-weight:600}
+.no-fit-answer:hover{background:#e4e2dd}
+
+/* Comparison readability, especially on phones. */
+.compare-topic .dimension-explainer{display:block!important;margin-top:6px;color:var(--muted);font-size:13px;line-height:1.45;font-weight:500;text-transform:none;letter-spacing:0}
+.compare-cell-party{display:block;margin-bottom:7px;color:var(--muted);font-size:10px;font-weight:850;line-height:1.2;text-transform:uppercase;letter-spacing:.045em;overflow-wrap:anywhere}
+.compare-cell.match-close .compare-cell-party{color:rgba(255,255,255,.82)}
+
+/* Result export. */
+.save-result-card{margin:22px 0;padding:20px;background:#fff;border:1px solid var(--line);border-radius:20px}
+.save-result-card h3{margin:5px 0 8px}
+.save-result-card p{margin:0 0 14px;color:var(--muted);line-height:1.5}
+.save-result-card button{width:100%}
+
+@media(max-width:760px){
+  .compare-cell{padding:11px!important;min-height:92px!important}
+  .compare-cell-party{font-size:9px}
+  .compare-topic .dimension-explainer{font-size:12px}
+  .no-fit-answer{padding:14px 12px}
+}
