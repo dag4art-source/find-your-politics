@@ -5,6 +5,85 @@
     if(previous)previous(state);
     if(!state.bank?.questions||state.bank.v2AuditFixed)return;
     const get=id=>state.bank.questions.find(x=>x.id===id);
+    const rewrite=(id,question,questionSv,answers)=>{
+      const q=get(id);if(!q)return;
+      if(question)q.question=question;if(questionSv)q.question_sv=questionSv;
+      q.answers.forEach(a=>{const x=answers?.[a.key];if(x){a.text=x[0];a.text_sv=x[1];if(Number.isFinite(x[2]))a.score=x[2]}});
+    };
+
+    /* Reference-point audit: make comparative answer scales explicit where the old wording
+       could leave users asking "higher/lower than what?". Scores and dimensions are unchanged. */
+    rewrite('Q003',
+      "Compared with today's system, how should Sweden tax high employment incomes?",
+      'Jämfört med dagens system, hur bör Sverige beskatta höga arbetsinkomster?',{
+        A:['Increase tax on high employment incomes substantially.','Höj skatten på höga arbetsinkomster betydligt.',-90],
+        B:["Keep tax on high employment incomes broadly around today's level.",'Behåll skatten på höga arbetsinkomster ungefär på dagens nivå.',-25],
+        C:['Lower tax on high employment incomes somewhat.','Sänk skatten på höga arbetsinkomster något.',55],
+        D:['Lower tax on high employment incomes substantially.','Sänk skatten på höga arbetsinkomster betydligt.',95]
+      });
+
+    rewrite('Q006',
+      'What role should the state have as an owner of companies?',
+      'Vilken roll bör staten ha som ägare av företag?',{
+        A:['The state should own a broad range of strategically important companies.','Staten bör äga ett brett urval av strategiskt viktiga företag.',-85],
+        B:['The state should own selected essential or strategic companies case by case.','Staten bör äga vissa viktiga eller strategiska företag från fall till fall.',-25],
+        C:['Most commercial activity should be privately owned.','Det mesta kommersiella bör vara privatägt.',60],
+        D:['The state should own very few commercial companies.','Staten bör äga mycket få kommersiella företag.',95]
+      });
+
+    rewrite('Q007',
+      'Compared with today, how should the balance between employment protection and employer flexibility change?',
+      'Jämfört med i dag, hur bör balansen mellan anställningsskydd och arbetsgivares flexibilitet förändras?',{
+        A:['Strengthen employee protections substantially.','Stärk anställningsskyddet betydligt.',-90],
+        B:["Keep roughly today's balance.",'Behåll ungefär dagens balans.',-20],
+        C:['Make hiring, restructuring and dismissal somewhat easier.','Gör det något lättare att anställa, omorganisera och säga upp.',55],
+        D:['Give employers substantially more flexibility.','Ge arbetsgivare betydligt större flexibilitet.',95]
+      });
+
+    rewrite('Q017',
+      "Compared with today, how restrictive should Sweden's asylum policy be?",
+      'Jämfört med i dag, hur restriktiv bör Sveriges asylpolitik vara?',{
+        A:['More open than today.','Mer öppen än i dag.',-90],
+        B:["Keep roughly today's level while strongly protecting genuine asylum claims.",'Behåll ungefär dagens nivå och ett starkt skydd för personer med verkliga asylskäl.',-25],
+        C:['More restrictive than today.','Mer restriktiv än i dag.',60],
+        D:['Reduce asylum migration to a minimum for an extended period.','Minska asylinvandringen till ett minimum under en längre tid.',95]
+      });
+
+    rewrite('Q018',
+      'Compared with today, how open should Sweden be to skilled workers from outside the EU?',
+      'Jämfört med i dag, hur öppet bör Sverige vara för kvalificerad arbetskraft utanför EU?',{
+        A:['Much more restrictive than today.','Mycket mer restriktiv än i dag.',-90],
+        B:['Somewhat more restrictive, mainly allowing clear shortage occupations.','Något mer restriktiv och främst tillåta yrken med tydlig arbetskraftsbrist.',-25],
+        C:["Keep broadly today's openness for qualified workers with proper employment terms.",'Behåll ungefär dagens öppenhet för kvalificerad arbetskraft med korrekta villkor.',60],
+        D:['Become more open and actively attract substantially more international talent.','Bli mer öppen och arbeta aktivt för att locka betydligt mer internationell kompetens.',95]
+      });
+
+    rewrite('Q028',
+      'How much school choice should families have?',
+      'Hur stor valfrihet bör familjer ha när de väljer skola?',{
+        A:['Limited choice; equal access and school planning should take priority.','Begränsad valfrihet; jämlik tillgång och skolplanering bör väga tyngst.',-90],
+        B:['Some choice, under tight common rules.','Viss valfrihet, under strikta gemensamma regler.',-35],
+        C:['Broad choice, with strong quality and admissions rules.','Bred valfrihet, med starka kvalitets- och antagningsregler.',55],
+        D:['Very broad choice and competition between schools.','Mycket bred valfrihet och konkurrens mellan skolor.',90]
+      });
+
+    rewrite('Q038',
+      "Over the next few years, how should Sweden's defence spending develop from today's level?",
+      'Hur bör Sveriges försvarsutgifter utvecklas från dagens nivå under de närmaste åren?',{
+        A:["Reduce spending from today's level and prioritize domestic needs.",'Minska utgifterna från dagens nivå och prioritera andra inhemska behov.',-90],
+        B:['Keep spending around the level needed to meet core commitments, avoiding major additional increases.','Behåll utgifterna kring den nivå som krävs för grundläggande åtaganden och undvik stora ytterligare ökningar.',-25],
+        C:['Increase spending substantially given the security environment.','Öka utgifterna betydligt med tanke på säkerhetsläget.',60],
+        D:["Make defence one of the state's highest spending priorities.",'Gör försvaret till en av statens allra högsta utgiftsprioriteringar.',95]
+      });
+
+    rewrite('Q042',
+      'How broad should the role of government be?',
+      'Hur omfattande bör statens roll vara?',{
+        A:['Government should take a broad role in solving social and economic problems.','Staten bör ha en bred roll i att lösa sociala och ekonomiska problem.',-90],
+        B:['Government should intervene where markets or institutions clearly fail.','Staten bör ingripa där marknader eller institutioner tydligt misslyckas.',-25],
+        C:['Government should focus on core functions and otherwise leave more to individuals and markets.','Staten bör fokusera på kärnuppgifter och i övrigt lämna mer till individer och marknader.',60],
+        D:['Government should have a much smaller role overall.','Staten bör ha en mycket mindre roll totalt sett.',95]
+      });
 
     const q44=get('Q044');
     if(q44){
