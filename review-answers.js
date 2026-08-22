@@ -54,7 +54,7 @@
     if(previous?.kind==='dealbreaker'&&previous.dealbreakerDimension){
       delete state.dealbreakers[previous.dealbreakerDimension];
     }
-    const weight=Number.isFinite(q.v2_weight)?q.v2_weight:(q.type==='reality_check'?.8:1);
+    const weight=Number.isFinite(q.v2_weight)?q.v2_weight:(q.type==='reality_check' ? .8 : 1);
     if(q.v2_kind==='dealbreaker'){
       state.dealbreakers[q.dealbreaker_dimension]=a.dealbreaker_sensitivity;
       state.answers[q.id]={score:null,dimension:q.primary_dimension,kind:'dealbreaker',dealbreakerDimension:q.dealbreaker_dimension,sensitivity:a.dealbreaker_sensitivity,weight:0};
