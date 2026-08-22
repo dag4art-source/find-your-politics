@@ -1,0 +1,23 @@
+/* Review answered questions */
+.review-screen{max-width:900px;margin:0 auto}
+.review-intro{max-width:720px;margin-bottom:24px}
+.review-list{display:grid;gap:14px;margin:24px 0 30px}
+.review-card{background:var(--card,#fff);border:1px solid rgba(20,20,20,.12);border-radius:18px;padding:18px}
+.review-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.review-card-head small{font-size:.78rem;opacity:.65}
+.review-question{font-size:1rem;line-height:1.45;font-weight:750;margin:0 0 14px}
+.review-options{display:grid;gap:8px}
+.review-option{width:100%;text-align:left;border:1px solid rgba(20,20,20,.13);background:transparent;border-radius:12px;padding:11px 13px;font:inherit;line-height:1.35;cursor:pointer}
+.review-option:hover{border-color:rgba(20,20,20,.3)}
+.review-option.selected{border-color:currentColor;background:rgba(20,20,20,.055);font-weight:700}
+.review-option.skip-option{opacity:.72}
+.review-actions{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 10px}
+.review-updated{font-size:.85rem;opacity:.7;margin-top:10px;min-height:1.2em}
+#reviewAnswersBtn{margin-right:8px}
+@media(max-width:640px){
+  .review-card{padding:15px;border-radius:15px}
+  .review-card-head{align-items:flex-start;flex-direction:column;gap:3px}
+  .review-option{padding:12px}
+  .review-actions{display:grid}
+  .review-actions button{width:100%}
+}
