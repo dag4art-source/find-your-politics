@@ -24,38 +24,37 @@
     });
   }
 
+  const setText=(el,value)=>{if(el&&el.textContent!==value)el.textContent=value};
+  const setAttr=(el,name,value)=>{if(el&&el.getAttribute(name)!==value)el.setAttribute(name,value)};
+
   function polishSwedishUi(){
     const isSv=typeof state!=='undefined' && state.lang==='sv';
-    document.title=isSv?'Find Your Politics - Sverige 2026':'Find Your Politics - Sweden 2026';
+    const wantedTitle=isSv?'Find Your Politics - Sverige 2026':'Find Your Politics - Sweden 2026';
+    if(document.title!==wantedTitle)document.title=wantedTitle;
 
-    const meta=document.querySelector('.meta');
-    if(meta)meta.textContent=isSv?'Sverige 2026 · V2.0 granskningsversion':'Sweden 2026 · V2.0 audit candidate';
-
-    const switcher=document.querySelector('.language-switch');
-    if(switcher)switcher.setAttribute('aria-label',isSv?'Språk':'Language');
-
-    const role=document.querySelector('.creator-role');
-    if(role)role.textContent=isSv?'Varumärkesstrateg, copywriter och AI-entusiast':'Brand strategist, copywriter & AI enthusiast';
+    setText(document.querySelector('.meta'),isSv?'Sverige 2026 · V2.0 granskningsversion':'Sweden 2026 · V2.0 audit candidate');
+    setAttr(document.querySelector('.language-switch'),'aria-label',isSv?'Språk':'Language');
+    setText(document.querySelector('.creator-role'),isSv?'Varumärkesstrateg, copywriter och AI-entusiast':'Brand strategist, copywriter & AI enthusiast');
 
     const legend=[...document.querySelectorAll('#screen-results .score-legend strong')];
-    if(legend[0])legend[0].textContent=isSv?'Sakpolitisk matchning':'Policy Alignment';
-    if(legend[1])legend[1].textContent=isSv?'Praktisk matchning':'Voting Fit';
+    setText(legend[0],isSv?'Sakpolitisk matchning':'Policy Alignment');
+    setText(legend[1],isSv?'Praktisk matchning':'Voting Fit');
 
     document.querySelectorAll('#screen-results .v2-metric > span').forEach(el=>{
       const s=el.textContent.trim();
-      if(s==='Policy Alignment'||s==='Sakpolitisk matchning')el.textContent=isSv?'Sakpolitisk matchning':'Policy Alignment';
-      if(s==='Voting Fit'||s==='Praktisk matchning')el.textContent=isSv?'Praktisk matchning':'Voting Fit';
+      if(s==='Policy Alignment'||s==='Sakpolitisk matchning')setText(el,isSv?'Sakpolitisk matchning':'Policy Alignment');
+      if(s==='Voting Fit'||s==='Praktisk matchning')setText(el,isSv?'Praktisk matchning':'Voting Fit');
     });
 
     if(isSv){
       document.querySelectorAll('#screen-results .v2-metric em').forEach(el=>{
         const m=el.textContent.match(/^([0-9.,]+)\s+poäng konfliktavdrag$/i);
-        if(m)el.textContent=`Konfliktavdrag: ${m[1]} poäng`;
+        if(m)setText(el,`Konfliktavdrag: ${m[1]} poäng`);
       });
     }
 
     document.querySelectorAll('[data-i18n="trust_3"]').forEach(el=>{
-      if(isSv && el.textContent==='100% privat')el.textContent='100 % privat';
+      if(isSv && el.textContent==='100% privat')setText(el,'100 % privat');
     });
   }
 
@@ -74,7 +73,7 @@
     scheduled=true;
     requestAnimationFrame(()=>{scheduled=false;polishSwedishUi()});
   });
-  observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+  observer.observe(document.body,{childList:true,subtree:true});
   window.addEventListener('load',polishSwedishUi);
   polishSwedishUi();
 })();
