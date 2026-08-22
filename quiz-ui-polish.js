@@ -24,10 +24,42 @@
     if(body&&typeof t==='function')body.textContent=t('priority_body');
   }
 
+  function keepBackButtonAvailable(){
+    const back=document.getElementById('backBtn');
+    if(!back)return;
+    back.classList.remove('hidden');
+    back.onclick=()=>{
+      if(state.history?.length){
+        const id=state.history.pop();
+        const saved=state.answers[id];
+        if(saved?.kind==='dealbreaker'&&saved.dealbreakerDimension&&state.dealbreakers){
+          delete state.dealbreakers[saved.dealbreakerDimension];
+        }
+        delete state.answers[id];
+        const q=state.bank.questions.find(x=>x.id===id);
+        state.asked=state.asked.filter(x=>x!==id);
+        show('screen-quiz');
+        renderQuestion(q);
+      }else{
+        show('screen-priorities');
+      }
+    };
+  }
+
+  if(typeof renderQuestion==='function'){
+    const previousRenderQuestion=renderQuestion;
+    renderQuestion=function(q){
+      const out=previousRenderQuestion(q);
+      keepBackButtonAvailable();
+      return out;
+    };
+  }
+
   function polish(){
     removeDuplicateHesitation();
     placeReviewButton();
     simplifyPriorityStep();
+    keepBackButtonAvailable();
   }
 
   let scheduled=false;
