@@ -4,6 +4,9 @@
 .answer:focus{outline:none}
 .answer:focus-visible{outline:2px solid #171717;outline-offset:2px}
 
+/* Never reveal live match movement during the blind part of the test. */
+#screen-quiz .insight-banner.enhanced{display:none!important}
+
 /* A visually separate non-scoring answer. */
 .no-fit-answer{
   width:100%;
