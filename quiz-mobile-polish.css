@@ -33,7 +33,7 @@
   min-height:calc(100svh - 72px);
 }
 
-/* Phone quiz: use the available viewport instead of compressing the card to its content. */
+/* Phone quiz: use the available viewport and let the answer buttons fill it. */
 @media(max-width:760px){
   #screen-quiz{
     padding-top:8px;
@@ -53,9 +53,9 @@
   }
   #screen-quiz .status-row{
     margin-bottom:5px;
-    font-size:10px;
+    font-size:11px;
   }
-  #screen-quiz .progress{height:4px}
+  #screen-quiz .progress{height:5px}
 
   #screen-quiz .question-card{
     flex:1 1 auto;
@@ -66,66 +66,78 @@
     border-radius:20px;
   }
   #screen-quiz .question-meta{
-    font-size:9px;
+    font-size:10px;
     line-height:1.2;
   }
   #screen-quiz .why-question{
     padding-top:4px;
-    font-size:10px;
+    font-size:11px;
     line-height:1.2;
   }
   #screen-quiz .why-answer{
     margin-top:6px;
     padding:9px 11px;
-    font-size:11px;
+    font-size:12px;
     line-height:1.35;
   }
   #screen-quiz .question-card h2{
-    font-size:clamp(21px,6vw,26px);
-    line-height:1.1;
+    font-size:clamp(24px,6.8vw,30px);
+    line-height:1.08;
     margin:9px 0 12px;
   }
+
   #screen-quiz .answers{
-    gap:7px;
+    flex:1 1 auto;
+    min-height:0;
+    display:grid;
+    grid-auto-rows:minmax(0,1fr);
+    gap:8px;
     margin:10px 0 12px;
   }
-  #screen-quiz .answer{
+  #screen-quiz .answer,
+  #screen-quiz .no-fit-answer{
+    height:100%;
     min-height:0;
-    padding:10px 12px;
-    border-radius:13px;
-    font-size:14px;
-    line-height:1.25;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+  }
+  #screen-quiz .answer{
+    padding:12px 14px;
+    border-radius:14px;
+    font-size:16px;
+    line-height:1.28;
   }
   #screen-quiz .no-fit-answer{
-    min-height:0;
-    margin-top:4px;
-    padding:9px 11px;
-    border-radius:13px;
-    font-size:12px;
-    line-height:1.2;
+    margin-top:0;
+    padding:11px 13px;
+    border-radius:14px;
+    font-size:14px;
+    line-height:1.22;
+    justify-content:center;
   }
   #screen-quiz .no-fit-answer small{
-    margin-top:2px;
-    font-size:9px;
+    margin-top:3px;
+    font-size:10px;
     line-height:1.15;
   }
   #screen-quiz .question-actions{
     grid-template-columns:1fr 1fr;
     gap:8px;
-    margin-top:auto;
-    padding-top:10px;
+    margin-top:0;
+    padding-top:2px;
   }
   #screen-quiz .question-actions > button{
-    min-height:42px;
-    padding:8px 9px;
-    font-size:12px;
+    min-height:46px;
+    padding:9px 10px;
+    font-size:13px;
     line-height:1.15;
   }
   #screen-quiz .explainer{
     margin-top:9px;
     padding:12px;
     border-radius:14px;
-    font-size:12px;
+    font-size:13px;
     line-height:1.35;
   }
   #screen-quiz .explainer p{margin:5px 0}
@@ -135,14 +147,14 @@
   }
 }
 
-/* On short phones, keep everything visible by falling back to the compact sizing. */
+/* On short phones, keep everything visible but still use the card efficiently. */
 @media(max-width:760px) and (max-height:740px){
   .topbar{padding-bottom:8px}
-  #screen-quiz .question-card{padding:10px}
-  #screen-quiz .question-card h2{font-size:19px;margin:5px 0 7px}
-  #screen-quiz .answers{gap:4px;margin:6px 0}
-  #screen-quiz .answer{padding:6px 9px;font-size:12px;line-height:1.16}
-  #screen-quiz .no-fit-answer{padding:6px 9px}
-  #screen-quiz .question-actions{margin-top:auto;padding-top:5px}
-  #screen-quiz .question-actions > button{min-height:36px;padding:6px;font-size:10.5px}
+  #screen-quiz .question-card{padding:11px}
+  #screen-quiz .question-card h2{font-size:21px;margin:5px 0 7px}
+  #screen-quiz .answers{gap:5px;margin:6px 0 8px}
+  #screen-quiz .answer{padding:7px 10px;font-size:13px;line-height:1.16}
+  #screen-quiz .no-fit-answer{padding:7px 10px;font-size:12px}
+  #screen-quiz .question-actions{padding-top:1px}
+  #screen-quiz .question-actions > button{min-height:38px;padding:6px;font-size:11px}
 }
