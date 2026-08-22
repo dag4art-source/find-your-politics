@@ -28,11 +28,20 @@
   width:100%;
 }
 
+/* When the quiz is active, keep the footer below the first viewport.
+   This does NOT enlarge or vertically stretch the question card itself. */
+#screen-quiz.active{
+  min-height:calc(100svh - 72px);
+}
+
 /* Phone quiz: prioritize one-screen answering over decorative whitespace. */
 @media(max-width:760px){
   #screen-quiz{
     padding-top:6px;
     padding-bottom:8px;
+  }
+  #screen-quiz.active{
+    min-height:calc(100svh - 58px);
   }
   #screen-quiz .sticky-status{
     position:relative;
