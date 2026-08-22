@@ -85,6 +85,60 @@
         D:['Government should have a much smaller role overall.','Staten bör ha en mycket mindre roll totalt sett.',95]
       });
 
+    /* Construct-purity review: narrow four questions so each answer scale maps more cleanly
+       to its model dimension. Scores and party coordinates remain unchanged. */
+    const q4=get('Q004');
+    if(q4){
+      q4.question="Compared with today's system, how heavily should Sweden tax large accumulated assets, such as expensive property and very large fortunes?";
+      q4.question_sv='Jämfört med dagens system, hur hårt bör Sverige beskatta stora samlade tillgångar, till exempel dyra fastigheter och mycket stora förmögenheter?';
+      q4.dont_know_explainer='This is about the overall tax burden on large accumulated assets rather than tax on wages. Different asset taxes can be designed differently, so this question only estimates the broad direction of your preference.';
+      const t4={
+        A:["Tax large accumulated assets substantially more than today.",'Beskatta stora samlade tillgångar betydligt mer än i dag.',-95],
+        B:["Tax them somewhat more than today.",'Beskatta dem något mer än i dag.',-30],
+        C:["Keep the overall tax burden on large assets relatively low and roughly around today's direction.",'Håll den samlade beskattningen av stora tillgångar relativt låg och ungefär i dagens riktning.',55],
+        D:["Reduce the overall tax burden on large assets further.",'Sänk den samlade beskattningen av stora tillgångar ytterligare.',90]
+      };q4.answers.forEach(a=>{if(t4[a.key]){a.text=t4[a.key][0];a.text_sv=t4[a.key][1];a.score=t4[a.key][2]}});
+    }
+
+    const q10=get('Q010');
+    if(q10){
+      q10.question='When someone who has been working loses their job, how much of their previous income should unemployment insurance replace?';
+      q10.question_sv='När någon som har arbetat förlorar jobbet, hur stor del av den tidigare inkomsten bör arbetslöshetsförsäkringen ersätta?';
+      q10.dont_know_explainer='This question focuses on income protection during unemployment. Requirements to look for work are a separate issue.';
+      const t10={
+        A:['A large share, so income falls relatively little while the person looks for work.','En stor andel, så att inkomsten minskar relativt lite medan personen söker arbete.',-95],
+        B:['A fairly large share, but clearly less than normal earnings.','En ganska stor andel, men tydligt mindre än den vanliga arbetsinkomsten.',-35],
+        C:['A more limited share, leaving a clear financial difference between work and unemployment.','En mer begränsad andel, så att det finns en tydlig ekonomisk skillnad mellan arbete och arbetslöshet.',55],
+        D:['A low share, with strong emphasis on the financial incentive to return to work.','En låg andel, med stark betoning på det ekonomiska incitamentet att återgå i arbete.',95]
+      };q10.answers.forEach(a=>{if(t10[a.key]){a.text=t10[a.key][0];a.text_sv=t10[a.key][1];a.score=t10[a.key][2]}});
+    }
+
+    const q11=get('Q011');
+    if(q11){
+      q11.question='When illness genuinely prevents someone from working, how should sickness insurance balance income protection against strict eligibility and return-to-work requirements?';
+      q11.question_sv='När sjukdom faktiskt hindrar någon från att arbeta, hur bör sjukförsäkringen balansera inkomsttrygghet mot strikta villkor och krav på återgång i arbete?';
+      q11.dont_know_explainer='This asks about the overall balance between protecting income during medically justified absence and using stricter rules to encourage or require a return to work when possible.';
+      const t11={
+        A:['Prioritize strong income protection and relatively accessible eligibility when illness is medically supported.','Prioritera stark inkomsttrygghet och relativt lättillgänglig ersättning när sjukdomen är medicinskt styrkt.',-90],
+        B:['Keep a strong safety net, with clear medical checks and rehabilitation support.','Behåll ett starkt skyddsnät, med tydliga medicinska kontroller och stöd för rehabilitering.',-30],
+        C:['Use stricter eligibility and stronger return-to-work requirements when work may be possible.','Använd stramare villkor och starkare krav på återgång i arbete när arbete kan vara möjligt.',50],
+        D:['Use very strict eligibility and make benefits more limited when a return to work is considered possible.','Använd mycket strikta villkor och mer begränsad ersättning när återgång i arbete bedöms vara möjlig.',90]
+      };q11.answers.forEach(a=>{if(t11[a.key]){a.text=t11[a.key][0];a.text_sv=t11[a.key][1];a.score=t11[a.key][2]}});
+    }
+
+    const q24=get('Q024');
+    if(q24){
+      q24.question='In general, how should rents for ordinary rental apartments be set?';
+      q24.question_sv='Hur bör hyror för vanliga hyresrätter i allmänhet bestämmas?';
+      q24.dont_know_explainer='This isolates the rent-setting principle itself: stronger collective/regulatory control versus rents that respond more directly to market demand. Effects on housing construction are tested separately.';
+      const t24={
+        A:['Mostly through strong regulation or collective rent-setting, with limited influence from market demand.','Främst genom stark reglering eller kollektiv hyressättning, med begränsad påverkan från marknadens efterfrågan.',-95],
+        B:['Mostly regulated, but with somewhat more room for differences between locations and apartments.','Främst reglerade, men med något större utrymme för skillnader mellan lägen och bostäder.',-40],
+        C:['More market-responsive rents, while keeping meaningful tenant protections.','Mer marknadsanpassade hyror, men med tydliga skydd för hyresgäster.',55],
+        D:['Mostly set by market demand, with only basic tenant protections.','Främst bestämda av marknadens efterfrågan, med endast grundläggande hyresgästskydd.',95]
+      };q24.answers.forEach(a=>{if(t24[a.key]){a.text=t24[a.key][0];a.text_sv=t24[a.key][1];a.score=t24[a.key][2]}});
+    }
+
     const q44=get('Q044');
     if(q44){
       q44.question='A regulation protects existing workers but makes firms less willing to hire inexperienced young people. What should take priority?';
