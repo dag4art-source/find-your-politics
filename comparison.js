@@ -13,10 +13,7 @@
       test: "Testa skillnaderna →",
       back: "← Tillbaka till resultatet",
       noMore: "Vi har redan testat de viktigaste skillnaderna mellan dina topp 3.",
-      updated: "Bra — nu testar vi några frågor som är särskilt bra på att skilja dina toppalternativ åt.",
-      low: "mer åt det första hållet",
-      middle: "mitten",
-      high: "mer åt det andra hållet"
+      updated: "Bra - nu testar vi några frågor som är särskilt bra på att skilja dina toppalternativ åt."
     },
     en: {
       compare: "Compare my top 3 →",
@@ -28,13 +25,40 @@
       test: "Test the differences →",
       back: "← Back to results",
       noMore: "We have already tested the most useful differences between your top 3.",
-      updated: "Good — the next questions are specifically chosen to separate your closest options.",
-      low: "leans toward the first side",
-      middle: "middle",
-      high: "leans toward the second side"
+      updated: "Good - the next questions are specifically chosen to separate your closest options."
     }
   };
   const c = k => copy[state.lang][k];
+
+  const positionLabels = {
+    market_economy:{sv:["Mer statlig styrning","Blandad modell","Mer marknad"],en:["More government direction","Mixed model","More market"]},
+    tax_work_income:{sv:["Högre skatt på arbete","Ungefär mitten","Lägre skatt på arbete"],en:["Higher tax on work","Around the middle","Lower tax on work"]},
+    tax_wealth_property:{sv:["Högre skatt på stora tillgångar","Ungefär mitten","Lägre skatt på stora tillgångar"],en:["Higher tax on large assets","Around the middle","Lower tax on large assets"]},
+    welfare_qualification:{sv:["Mer generell tillgång","Blandad modell","Striktare kvalificering"],en:["More universal access","Mixed model","Stricter qualification"]},
+    unemployment_security:{sv:["Mer generös ersättning","Ungefär mitten","Mer begränsad ersättning"],en:["More generous benefits","Around the middle","More limited benefits"]},
+    sickness_social_insurance:{sv:["Starkare inkomstskydd","Balans","Striktare villkor"],en:["Stronger income protection","Balanced","Stricter eligibility"]},
+    labour_flexibility:{sv:["Starkare anställningsskydd","Balans","Mer arbetsgivarflexibilitet"],en:["Stronger employment protection","Balanced","More employer flexibility"]},
+    inequality_focus:{sv:["Mer fokus på jämlikhet","Blandad prioritering","Mer fokus på tillväxt och möjligheter"],en:["More focus on equality","Mixed priority","More focus on growth and opportunity"]},
+    public_ownership:{sv:["Mer statligt ägande","Blandad modell","Mindre statligt ägande"],en:["More state ownership","Mixed model","Less state ownership"]},
+    crime_punishment:{sv:["Mer förebyggande och rehabilitering","Balans","Hårdare straff och kontroll"],en:["More prevention and rehabilitation","Balanced","Tougher punishment and enforcement"]},
+    surveillance_powers:{sv:["Mer integritet","Balans","Mer polisövervakning"],en:["More privacy","Balanced","More police surveillance"]},
+    asylum_migration:{sv:["Öppnare asylpolitik","Ungefär mitten","Restriktivare asylpolitik"],en:["More open asylum policy","Around the middle","More restrictive asylum policy"]},
+    skilled_migration:{sv:["Mer restriktiv arbetskraftsinvandring","Ungefär mitten","Öppnare arbetskraftsinvandring"],en:["More restrictive skilled migration","Around the middle","More open skilled migration"]},
+    citizenship_requirements:{sv:["Lägre krav för medborgarskap","Ungefär mitten","Striktare krav för medborgarskap"],en:["Lower citizenship requirements","Around the middle","Stricter citizenship requirements"]},
+    integration:{sv:["Mindre krav på kulturell anpassning","Ungefär mitten","Mer krav på kulturell anpassning"],en:["Less cultural adaptation required","Around the middle","More cultural adaptation required"]},
+    housing_supply:{sv:["Mer offentlig styrning","Blandad modell","Mer marknadsdrivet byggande"],en:["More public direction","Mixed model","More market-led housing"]},
+    rent_regulation:{sv:["Mer reglerade hyror","Ungefär mitten","Mer marknadsbaserade hyror"],en:["More regulated rents","Around the middle","More market-based rents"]},
+    healthcare_choice:{sv:["Främst offentlig vård","Blandad modell","Mer valfrihet och privata alternativ"],en:["Mostly public provision","Mixed model","More choice and private provision"]},
+    education_choice:{sv:["Mindre skolval","Ungefär mitten","Mer skolval"],en:["Less school choice","Around the middle","More school choice"]},
+    school_discipline:{sv:["Mer stöd och inkludering","Balans","Mer ordning och disciplin"],en:["More support and inclusion","Balanced","More order and discipline"]},
+    welfare_private_profit:{sv:["Mindre utrymme för vinst","Ungefär mitten","Mer utrymme för vinst"],en:["Less room for profit","Around the middle","More room for profit"]},
+    climate_cost_sensitivity:{sv:["Snabbare klimatåtgärder trots kostnader","Balans","Mer fokus på kostnader"],en:["Faster climate action despite costs","Balanced","More focus on costs"]},
+    nuclear_energy:{sv:["Mindre kärnkraft","Ungefär mitten","Mer kärnkraft"],en:["Less nuclear power","Around the middle","More nuclear power"]},
+    eu_integration:{sv:["Mer nationell kontroll","Ungefär mitten","Mer EU-integration"],en:["More national control","Around the middle","More EU integration"]},
+    social_values:{sv:["Mer progressiva värderingar","Neutral/blandad","Mer konservativa värderingar"],en:["More progressive values","Neutral/mixed","More conservative values"]},
+    state_scope:{sv:["Bredare statlig roll","Balans","Mer begränsad statlig roll"],en:["Broader government role","Balanced","More limited government role"]},
+    defence_spending:{sv:["Lägre försvarsutgifter","Ungefär mitten","Högre försvarsutgifter"],en:["Lower defence spending","Around the middle","Higher defence spending"]}
+  };
 
   function ensureScreen() {
     if (document.getElementById("screen-compare")) return;
@@ -81,10 +105,16 @@
     return dims.slice(0, 6);
   }
 
-  function positionLabel(value) {
-    if (value <= -35) return c("low");
-    if (value >= 35) return c("high");
-    return c("middle");
+  function positionLabel(d,value) {
+    const labels=positionLabels[d]?.[state.lang];
+    if(!labels){
+      if(value<=-35)return state.lang==='sv'?'Mer åt ena hållet':'Leans one way';
+      if(value>=35)return state.lang==='sv'?'Mer åt andra hållet':'Leans the other way';
+      return state.lang==='sv'?'Ungefär mitten':'Around the middle';
+    }
+    if (value <= -35) return labels[0];
+    if (value >= 35) return labels[2];
+    return labels[1];
   }
 
   function renderCompare() {
@@ -109,8 +139,8 @@
     rows.innerHTML = comparisonState.dimensions.map(x => {
       const uv = user[x.d];
       const cells = [
-        `<div class="compare-cell you"><strong>${uv == null ? "—" : positionLabel(uv)}</strong>${uv == null ? `<small>${state.lang === "sv" ? "Inte testat ännu" : "Not tested yet"}</small>` : ""}</div>`,
-        ...top3.map(r => `<div class="compare-cell"><strong>${positionLabel(pc[r.p][x.d])}</strong></div>`)
+        `<div class="compare-cell you"><strong>${uv == null ? "—" : positionLabel(x.d,uv)}</strong>${uv == null ? `<small>${state.lang === "sv" ? "Inte testat ännu" : "Not tested yet"}</small>` : ""}</div>`,
+        ...top3.map(r => `<div class="compare-cell"><strong>${positionLabel(x.d,pc[r.p][x.d])}</strong></div>`)
       ].join("");
       return `<div class="compare-row"><div class="compare-topic"><strong>${dimName(x.d)}</strong><span>${state.lang === "sv" ? "skillnad mellan partierna" : "difference between parties"}: ${Math.round(x.spread)}</span></div><div class="compare-grid">${cells}</div></div>`;
     }).join("");
@@ -168,14 +198,12 @@
     return true;
   }
 
-  // Keep core quiz intact, but intercept progression only during a comparison challenge.
   const coreAskNext = askNext;
   askNext = function() {
     if (comparisonState.testing) return comparisonAskNext();
     return coreAskNext();
   };
 
-  // Add the comparison CTA every time results are rendered.
   const coreResults = results;
   results = function() {
     coreResults();
@@ -192,7 +220,6 @@
     btn.textContent = c("compare");
   };
 
-  // Language changes should update an open comparison screen too.
   const coreApplyLang = applyLang;
   applyLang = function() {
     coreApplyLang();
