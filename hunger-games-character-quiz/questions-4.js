@@ -36,3 +36,26 @@ Q('hs51','style',['persona','autonomy','symbolic'],'There is an unwritten dress 
  ['Follow it closely. Clothes are not the battle I care about.',4,2,1],['Fit the vibe, but include one thing that feels unmistakably me.',4,4,4],['Dress how I want if I am comfortable with it.',1,5,4],['Use the expected look strategically because people judge before they know you.',5,3,3],['Push it just enough to see what people actually care about.',3,5,4],['Make the expected look more interesting instead of rejecting it.',5,3,5]
 ])
 );
+
+// Touch devices can keep CSS :hover stuck after a tap. Neutralize that state so
+// the next question never looks as if an answer is already selected.
+if (window.matchMedia('(hover: none), (pointer: coarse)').matches) {
+  const touchStyle = document.createElement('style');
+  touchStyle.textContent = `
+    .answer-btn { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    .answer-btn:hover,
+    .answer-btn:focus,
+    .answer-btn:focus-visible {
+      border-color: #2c2b2b !important;
+      background: linear-gradient(180deg,#151517,#111113) !important;
+      transform: none !important;
+      outline: none !important;
+    }
+    .answer-btn:active {
+      border-color: var(--gold2) !important;
+      background: #191814 !important;
+      transform: scale(.995) !important;
+    }
+  `;
+  document.head.appendChild(touchStyle);
+}
