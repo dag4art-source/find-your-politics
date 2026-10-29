@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0b0c" />
+  <meta name="description" content="A private, adaptive Hunger Games character quiz. Twelve everyday choices. One psychological match." />
+  <meta property="og:title" content="Which Hunger Games Character Are You?" />
+  <meta property="og:description" content="12 everyday choices. One psychological match." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>Which Hunger Games Character Are You?</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="app" class="app-shell" aria-live="polite">
+    <section id="intro-screen" class="screen screen--active intro-screen">
+      <div class="grain" aria-hidden="true"></div>
+      <div class="intro-mark" aria-hidden="true">
+        <span>12</span>
+      </div>
+      <p class="eyebrow">THE HUNGER GAMES</p>
+      <h1>WHO WOULD<br>YOU BECOME?</h1>
+      <p class="intro-copy">Twelve ordinary situations. Six choices each. No heroic answers. No obvious tells.</p>
+      <p class="intro-subcopy">Choose what you would actually do.</p>
+      <button id="start-btn" class="primary-btn">BEGIN</button>
+      <p class="privacy-note">No account. No tracking. Your answers stay on this device.</p>
+    </section>
+
+    <section id="quiz-screen" class="screen quiz-screen" hidden>
+      <header class="quiz-header">
+        <button id="quit-btn" class="icon-btn" aria-label="Quit quiz">×</button>
+        <div class="progress-wrap" aria-label="Quiz progress">
+          <div class="progress-meta"><span id="round-label">01 / 12</span><span id="phase-label">PROFILE</span></div>
+          <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+        </div>
+      </header>
+      <div class="question-wrap">
+        <p id="question-kicker" class="question-kicker">SITUATION</p>
+        <h2 id="question-text"></h2>
+        <div id="answers" class="answers" role="group" aria-label="Answer choices"></div>
+      </div>
+    </section>
+
+    <section id="analyzing-screen" class="screen analyzing-screen" hidden>
+      <div class="analysis-orbit" aria-hidden="true"><div></div><div></div><div></div></div>
+      <p class="eyebrow">PROFILE COMPLETE</p>
+      <h2>READING THE PATTERN</h2>
+      <div class="analysis-lines">
+        <span>LOYALTY</span><i></i>
+        <span>AUTONOMY</span><i></i>
+        <span>STRATEGY</span><i></i>
+        <span>PRESSURE</span><i></i>
+      </div>
+    </section>
+
+    <section id="result-screen" class="screen result-screen" hidden>
+      <div class="result-hero">
+        <p class="eyebrow">YOUR MATCH</p>
+        <p id="match-strength" class="match-strength">STRONG MATCH</p>
+        <h2 id="character-name"></h2>
+        <p id="character-archetype" class="archetype"></p>
+      </div>
+
+      <div class="result-cards">
+        <article class="result-card result-card--lead">
+          <span class="card-label">YOUR CORE PATTERN</span>
+          <p id="core-pattern"></p>
+        </article>
+
+        <article class="result-card">
+          <span class="card-label">WHY THIS CHARACTER</span>
+          <ul id="why-list"></ul>
+        </article>
+
+        <div class="result-grid">
+          <article class="result-card">
+            <span class="card-label">YOUR EDGE</span>
+            <p id="edge-text"></p>
+          </article>
+          <article class="result-card">
+            <span class="card-label">YOUR BLIND SPOT</span>
+            <p id="blind-text"></p>
+          </article>
+        </div>
+
+        <article class="result-card">
+          <span class="card-label">UNDER PRESSURE</span>
+          <p id="pressure-text"></p>
+        </article>
+
+        <article class="result-card runner-card">
+          <span class="card-label">CLOSEST ALTERNATIVE</span>
+          <h3 id="runner-name"></h3>
+          <p id="runner-text"></p>
+        </article>
+      </div>
+
+      <div class="result-actions">
+        <button id="portrait-btn" class="primary-btn">BECOME YOUR CHARACTER</button>
+        <button id="share-btn" class="secondary-btn">COPY RESULT</button>
+        <button id="restart-btn" class="text-btn">TAKE IT AGAIN</button>
+      </div>
+      <p class="disclaimer">For entertainment and character exploration, not a clinical assessment.</p>
+    </section>
+
+    <dialog id="portrait-dialog" class="portrait-dialog">
+      <button id="portrait-close" class="icon-btn dialog-close" aria-label="Close">×</button>
+      <p class="eyebrow">BECOME YOUR CHARACTER</p>
+      <h2 id="portrait-title">CREATE YOUR PANEM PORTRAIT</h2>
+      <p class="dialog-copy">The quiz itself is fully private and runs in your browser. For the portrait, ChatGPT can transform a selfie using your result.</p>
+      <div class="prompt-box"><p id="portrait-prompt"></p></div>
+      <button id="copy-prompt-btn" class="primary-btn">COPY PORTRAIT PROMPT</button>
+      <a id="open-chatgpt-btn" class="secondary-btn link-btn" href="https://chatgpt.com/" target="_blank" rel="noopener">OPEN CHATGPT</a>
+      <p class="dialog-tip">Upload a front-facing selfie in ChatGPT, paste the copied prompt, and send.</p>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="core.js"></script>
+  <script src="questions-1.js"></script>
+  <script src="questions-2.js"></script>
+  <script src="questions-3.js"></script>
+  <script src="questions-4.js"></script>
+  <script src="app-runtime.js"></script>
+</body>
+</html>
